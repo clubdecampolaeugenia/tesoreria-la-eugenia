@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0d6663">
+  <title>Movimiento de Tesorería – La Eugenia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #0d6663;
+      font-family: 'Roboto', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .card {
+      background: #c4df57;
+      border-radius: 24px;
+      width: 100%;
+      max-width: 430px;
+      padding: 22px 20px;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .logo-wrap img {
+      width: 150px;
+      height: auto;
+      display: block;
+      margin: auto;
+    }
+    h1 {
+      margin: 8px 0 0;
+      color: #000000;
+      font-family: Impact, sans-serif;
+      font-size: 34px;
+      line-height: 0.95;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    @media (max-width: 380px) {
+      h1 { font-size: 28px; }
+      .valor { font-size: 17px !important; }
+    }
+    .periodo {
+      margin: 8px 0 18px;
+      color: #0d6663;
+      font-size: 18px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+    .dato {
+      background: #edf1dc;
+      border-radius: 14px;
+      padding: 12px;
+      margin: 12px 0;
+    }
+    .dato-titulo {
+      color: #003a6b;
+      font-size: 14px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+    .valor {
+      margin-top: 4px;
+      color: #003a6b;
+      font-size: 20px;
+      font-weight: 900;
+    }
+    .btn-outline {
+      display: block;
+      margin-top: 16px;
+      padding: 14px;
+      border: 2px solid #0d6663;
+      border-radius: 24px;
+      text-decoration: none;
+      color: #0d6663;
+      font-weight: 900;
+      text-transform: uppercase;
+      background: transparent;
+    }
+    .btn-solid {
+      display: block;
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 24px;
+      text-decoration: none;
+      background: #0d6663;
+      color: #c4df57;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+    .footer {
+      margin-top: 16px;
+      color: #003a6b;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo-wrap">
+      <img src="https://i.imgur.com/2YIjNDH.png" alt="Logo La Eugenia">
+    </div>
+    <h1>MOVIMIENTO DE<br>TESORERÍA</h1>
+    <div class="periodo" id="periodo">Cargando...</div>
+    <div class="dato">
+      <div class="dato-titulo">Ingresos</div>
+      <div class="valor" id="ingresos">—</div>
+    </div>
+    <div class="dato">
+      <div class="dato-titulo">Egresos</div>
+      <div class="valor" id="egresos">—</div>
+    </div>
+    <div class="dato">
+      <div class="dato-titulo">Resultado</div>
+      <div class="valor" id="resultado">—</div>
+    </div>
+    <a class="btn-outline" id="btnPdf" href="#" target="_blank">Ver informe PDF</a>
+    <a class="btn-solid" href="https://clubdecampolaeugenia.taplink.site/" target="_top">
+      Ir al Centro de Gestión Vecinal
+    </a>
+    <div class="footer" id="footer"></div>
+  </div>
+
+  <script>
+    const DATA_URL = 'https://script.google.com/macros/s/AKfycbzqf-oxbyV-SsQaUZj_C33xSQMX7h4V-g5Ws8EcXQ49nOYpn1_VWVwNhjnj3yd9PD_Syg/exec';
+
+    function formatoPesos(valor) {
+      return '$ ' + Number(valor).toLocaleString('es-AR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+    }
+
+    fetch(DATA_URL)
+      .then(res => res.json())
+      .then(d => {
+        if (d.error) {
+          document.getElementById('periodo').innerText = d.error;
+          return;
+        }
+        document.getElementById('periodo').innerText   = d.periodo;
+        document.getElementById('ingresos').innerText  = formatoPesos(d.ingresos);
+        document.getElementById('egresos').innerText   = formatoPesos(d.egresos);
+        document.getElementById('resultado').innerText = formatoPesos(d.resultado);
+        document.getElementById('btnPdf').href =
+          'https://drive.google.com/file/d/' + d.pdfId + '/view';
+        document.getElementById('footer').innerHTML =
+          'Fuente: José Luis Calvo<br>Última actualización: ' + d.fechaActualizacion;
+      })
+      .catch(() => {
+        document.getElementById('periodo').innerText = 'Error cargando datos';
+      });
+  </script>
+</body>
+</html>
