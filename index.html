@@ -3,34 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0d6663">
+  <meta name="theme-color" content="#135457">
   <link rel="apple-touch-icon" href="https://i.imgur.com/OBFb4tJ.png">
   <link rel="icon" type="image/png" href="https://i.imgur.com/OBFb4tJ.png">
   <title>Movimiento de Tesorería – La Eugenia</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    body { margin: 0; min-height: 100vh; background: #0d6663; font-family: 'Roboto', sans-serif; display: flex; justify-content: center; align-items: center; padding: 20px; }
+    :root {
+      --petroleo: #135457;
+      --lima:     #c4df57;
+      --naranja:  #deaf4d;
+      --verdecl:  #b7d6b5;
+      --blanco:   #ffffff;
+      --hueso:    #f5f3ec;
+      --negro:    #000000;
+    }
+    body { margin: 0; min-height: 100vh; background: var(--petroleo); font-family: 'Roboto', sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
 
     @keyframes fadeInScreen {
       from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .card { background: #c4df57; border-radius: 24px; width: 100%; max-width: 430px; padding: 22px 20px; text-align: center; box-sizing: border-box; box-shadow: 0 10px 28px rgba(0,0,0,0.4); animation: fadeInScreen 0.3s ease-out; }
+    .card { background: var(--verdecl); border-radius: 24px; width: 100%; max-width: 430px; padding: 22px 20px; text-align: center; box-sizing: border-box; box-shadow: 0 10px 28px rgba(0,0,0,0.4); animation: fadeInScreen 0.3s ease-out; }
     .logo-wrap img { width: 198px; height: auto; display: block; margin: auto; filter: drop-shadow(0 4px 7px rgba(0,0,0,0.2)); }
-    h1 { margin: 0; color: #000000; font-family: Impact, sans-serif; font-size: 34px; line-height: 0.95; letter-spacing: 1px; text-transform: uppercase; }
+    h1 { margin: 0; color: var(--negro); font-family: Impact, sans-serif; font-size: 34px; line-height: 0.95; letter-spacing: 1px; text-transform: uppercase; }
     @media (max-width: 380px) { h1 { font-size: 28px; } .valor { font-size: 17px !important; } }
-    .periodo { margin-top: 8px; margin-bottom: 18px; color: #0d6663; font-size: 18px; font-weight: 900; text-transform: uppercase; }
-    .dato { background: #edf1dc; border-radius: 14px; padding: 12px; margin: 12px 0; }
-    .dato-titulo { color: #003a6b; font-size: 14px; font-weight: 900; text-transform: uppercase; }
-    .valor { margin-top: 4px; color: #003a6b; font-size: 20px; font-weight: 900; }
+    .periodo { margin-top: 8px; margin-bottom: 18px; color: var(--petroleo); font-size: 18px; font-weight: 900; text-transform: uppercase; }
+    .dato { background: var(--blanco); border-radius: 14px; padding: 12px; margin: 12px 0; }
+    .dato-titulo { color: var(--petroleo); font-size: 14px; font-weight: 900; text-transform: uppercase; }
+    .valor { margin-top: 4px; color: var(--petroleo); font-size: 20px; font-weight: 900; }
 
     .btn-outline, .btn-solid {
       display: block;
       width: 100%;
       max-width: 480px;
-      margin: 10px auto 0;
       border-radius: 10px;
       padding: 14px;
       font-family: Impact, sans-serif;
@@ -40,19 +48,20 @@
       box-sizing: border-box;
       text-align: center;
       text-decoration: none;
-      border: 2px solid transparent;
+      border: 2px solid var(--petroleo);
+      cursor: pointer;
     }
-    .btn-outline { border-color: #0d6663; color: #0d6663; background: transparent; }
-    .btn-solid { background: #0a4f4d; border-color: #0a4f4d; color: #c4df57; }
-    .btn-outline:hover { background: #0d6663; color: #c4df57; }
-    .btn-solid:hover { background: #0a3d3b; }
-    .btn-outline, .btn-solid { transition: transform 0.08s, box-shadow 0.08s, background 0.15s, color 0.15s; }
+    .btn-outline { margin: 10px auto 0; background: var(--naranja); color: var(--petroleo); }
+    .btn-solid { margin: 36px auto 0; background: var(--lima); color: var(--petroleo); }
+    .btn-solid { background: var(--lima); color: var(--petroleo); }
+    .btn-outline:hover, .btn-solid:hover { opacity: 0.88; }
+    .btn-outline, .btn-solid { transition: transform 0.08s, box-shadow 0.08s, opacity 0.15s; }
     .btn-outline:active, .btn-solid:active {
       transform: scale(0.96);
       box-shadow: 0 2px 6px rgba(0,0,0,0.25);
     }
 
-    .footer { margin-top: 16px; color: #003a6b; font-size: 12px; line-height: 1.5; }
+    .footer { margin-top: 16px; color: var(--petroleo); font-size: 12px; line-height: 1.5; }
   </style>
 </head>
 <body>
@@ -75,9 +84,11 @@
       <div class="valor" id="resultado">—</div>
     </div>
     <a class="btn-outline" id="btnPdf" href="#" target="_blank">Ver informe PDF</a>
-    <a class="btn-solid" href="https://clubdecampolaeugenia.taplink.site/" target="_top">Ir al Centro de Gestión Vecinal</a>
     <div class="footer" id="footer"></div>
   </div>
+
+  <a class="btn-solid" href="https://clubdecampolaeugenia.taplink.site/" target="_top">Ir al Centro de Gestión Vecinal</a>
+
 
   <script>
     const DATA_URL = 'https://script.google.com/macros/s/AKfycbzqf-oxbyV-SsQaUZj_C33xSQMX7h4V-g5Ws8EcXQ49nOYpn1_VWVwNhjnj3yd9PD_Syg/exec';
